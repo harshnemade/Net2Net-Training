@@ -329,8 +329,8 @@ def result_sheet_pdf_view(request, id):
 
     print("\nsettings.MEDIA_ROOT", settings.MEDIA_ROOT)
     print("\nsettings.STATICFILES_DIRS[0]", settings.STATICFILES_DIRS[0])
-    logo = settings.STATICFILES_DIRS[0] + "/img/dj-lms.png"
-    im = Image(logo, 1 * inch, 1 * inch)
+    logo = settings.STATICFILES_DIRS[0] + "/img/net2net-traings.png"
+    im = Image(logo, 2 * inch, 2 * inch)
     im.__setattr__("_offs_x", -200)
     im.__setattr__("_offs_y", -45)
     Story.append(im)
@@ -479,7 +479,7 @@ def course_registration_form(request):
     normal.fontName = "Helvetica"
     normal.fontSize = 12
     normal.leading = 18
-    title = "<b>EZOD UNIVERSITY OF TECHNOLOGY, ADAMA</b>"  # TODO: Make this dynamic
+    title = "<b>Net2Net Traings</b>"  # TODO: Make this dynamic
     title = Paragraph(title.upper(), normal)
     Story.append(title)
     style = getSampleStyleSheet()
@@ -490,7 +490,7 @@ def course_registration_form(request):
     school.fontSize = 10
     school.leading = 18
     school_title = (
-        "<b>SCHOOL OF ELECTRICAL ENGINEERING & COMPUTING</b>"  # TODO: Make this dynamic
+        "<b>Traing institude</b>"  # TODO: Make this dynamic
     )
     school_title = Paragraph(school_title.upper(), school)
     Story.append(school_title)
@@ -503,7 +503,7 @@ def course_registration_form(request):
     department.fontSize = 9
     department.leading = 18
     department_title = (
-        "<b>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</b>"  # TODO: Make this dynamic
+        "<b>Nigadi pradhikaran</b>"  # TODO: Make this dynamic
     )
     department_title = Paragraph(department_title, department)
     Story.append(department_title)
@@ -741,7 +741,7 @@ def course_registration_form(request):
 
     # FIRST SEMESTER ENDS HERE
 
-    logo = settings.STATICFILES_DIRS[0] + "/img/dj-lms.png"
+    logo = settings.STATICFILES_DIRS[0] + "/img/net2net-traings.png"
     im_logo = Image(logo, 1 * inch, 1 * inch)
     im_logo.__setattr__("_offs_x", -218)
     im_logo.__setattr__("_offs_y", 480)

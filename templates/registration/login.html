@@ -1,69 +1,111 @@
 {% extends 'registration/registration_base.html' %}
-{% block title %}Dj Learning Management System - Login{% endblock title %}
-{% load crispy_forms_tags %}
+{% block title %}Net2Net Trainings - Login{% endblock title %}
+{% load static %} {% load crispy_forms_tags %}
 {% block content %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-<div class="col-md-4 mx-auto mt-5">
-  <div class="card">
-    <div class="form-title">
-      <i class="fas fa-lock me-2"></i>
-      Sign in
-    </div>
-    <div class="card-body">
-        <form action="" method="POST" id="login-form">{% csrf_token %}
-          <div class="form-group mb-3">
-              <label class="mb-2" for="username_id"><i class="fas fa-address-card me-2"></i>ID Number</label>
-              <input type="text" name="username" id="username_id" class="form-control" required>
-              <div id="message-wrapper"></div>
-          </div>
-          <div class="form-group mb-3">
-              <label class="mb-2" for="password_id"><i class="fas fa-key me-2"></i>Password</label>
-              <input type="password" name="password" id="password_id" class="form-control" required>
-          </div>
-          {% if form.errors %}
-                <span class="text-danger"><i class="fas fa-exclamation-circle"></i> Invalid ID & Password.</span><br>
-          {% endif %}
-      
-          <button type="submit" class="btn btn-primary" id="login-btn"><i class="fas fa-sign-in-alt"></i><small> SIGN IN</small></button>
-        </form>
-        <br>
-        <div class="login-bottom">
-          <a href="{% url 'password_reset' %}" class="link">Forgot password ?</a>
+    .bg-image {
+        background-image: url("{% static 'img/institute.jpg' %}");
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(5px);
+        -webkit-filter: blur(5px);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        z-index: 1; /* Keep under the text */
+    }
+
+    .training-name {
+        font-size: 50px;
+        color: #00bfff; /* Sky blue color */
+        font-weight: bold;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        letter-spacing: 3px;
+        text-shadow: 2px 2px 4px #000000; /* Enhance visibility */
+        z-index: 3; /* Ensures text is not blurred */
+    }
+
+    .description {
+        position: absolute;
+        top: 25%; /* Adjust based on actual position */
+        left: 10%;
+        width: 30%; /* Increased width to allow more words per line */
+        font-size: 16px; /* Smaller text size for the description */
+        color: #b3cee5; /* White color for readability */
+        z-index: 3; /* Above the blurred background */
+        line-height: 1.5; /* Good line height for readability */
+        text-shadow: 1px 1px 2px #000000; /* Subtle text shadow to enhance visibility on complex background */
+    }
+
+    .bg-text {
+        background-color: rgba(0,0,0, 0.4); /* Semi-transparent black for text readability */
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        top: 50%;
+        right: 10%; /* Align to the right side */
+        transform: translateY(-50%); /* Adjust vertical alignment only */
+        z-index: 2;
+        width: 400px; /* Increased width of the card */
+        padding: 20px;
+        text-align: center;
+        border-radius: 5px; /* Optional: rounded corners */
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border: none;
+    }
+</style>
+
+<div class="bg-image"></div>
+<div class="training-name">Net2Net Trainings</div>
+<div class="description">
+    Net2Net Knowledge Solutions is a software training and development organization for students undergoing their graduate and postgraduate courses in IT. Net2Net commenced its activities with a very clear objective of providing quality and affordable IT education in Pune. Net2Net Knowledge Solution offers different certification courses like Java, Python, Networking Subject, Dot net, C# etc. Courses taught at the institute include undergraduate courses like BCS, BCA, and postgraduate courses like MCA, MSC.
+</div>
+<div class="bg-text">
+    <div class="card">
+        <div class="form-title">
+            <i class="fas fa-lock me-2"></i>Sign in
         </div>
-      </div>
-  </div>
+        <div class="card-body">
+            <form action="" method="POST" id="login-form">{% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="username_id"><i class="fas fa-address-card me-2"></i>ID Number</label>
+                    <input type="text" name="username" id="username_id" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password_id"><i class="fas fa-key me-2"></i>Password</label>
+                    <input type="password" name="password" id="password_id" class="form-control" required>
+                </div>
+                {% if form.errors %}
+                    <span class="text-danger"><i class="fas fa-exclamation-circle"></i> Invalid ID & Password.</span><br>
+                {% endif %}
+                <button type="submit" class="btn btn-primary" id="login-btn"><i class="fas fa-sign-in-alt"></i><small> SIGN IN</small></button>
+            </form>
+            <br>
+            <div class="login-bottom">
+                <a href="{% url 'password_reset' %}" class="link">Forgot password?</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
 
 {% block js %}
-
 <script>
-  $('#login-form').submit(function (e) {
-    // e.preventDefault();
-    $('#login-btn').addClass('disabled')
-    $('#login-btn').html(`<i class="fas fa-sign-in-alt"></i> Signining you in . . .`)
-  })
-
-  $("#username").on("input", function () {
-    username = $(this).val();
-
-    $.ajax({
-      url: "/accounts/ajax/validate-username/",
-      data: {
-        username: username
-      },
-      dataType: 'json',
-      success: function (data) {
-        if (data.is_taken) {
-          console.log(data.is_taken);
-          $('#message-wrapper').html(`<p class="my-2 text-danger"><span class="bg-error p-2"><b>${username}</b> already taken :( try another one </span></p>`)
-        }
-        else {
-          $('#message-wrapper').html(`<p class="my-2 text-success"><span class="bg-correct p-2"><b>${username}</b> is valid </span></p>`)
-        }
-      }
-
-    })
-  })
+  // Your existing JavaScript
 </script>
 {% endblock %}

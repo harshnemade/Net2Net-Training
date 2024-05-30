@@ -108,6 +108,12 @@ class StaffAddForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email__iexact=email, is_active=True).exists():
+            raise forms.ValidationError("Email is taken, try another email address.")
+        return email
+
     @transaction.atomic()
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -135,9 +141,9 @@ class StaffAddForm(UserCreationForm):
 
             # Send email with the generated credentials
             send_mail(
-                "Your Django LMS account credentials",
+                "Your Net2Net Traings account credentials",
                 f"Your username: {generated_username}\nYour password: {generated_password}",
-                "from@example.com",
+                "clgprojectsem4@gmail.com",
                 [user.email],
                 fail_silently=False,
             )
@@ -258,10 +264,11 @@ class StudentAddForm(UserCreationForm):
         required=False,
     )
 
-    # def validate_email(self):
-    #     email = self.cleaned_data['email']
-    #     if User.objects.filter(email__iexact=email, is_active=True).exists():
-    #         raise forms.ValidationError("Email has taken, try another email address. ")
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email__iexact=email, is_active=True).exists():
+            raise forms.ValidationError("Email is taken, try another email address.")
+        return email
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -496,16 +503,17 @@ class ParentAddForm(UserCreationForm):
         label="Password Confirmation",
     )
 
-    # def validate_email(self):
-    #     email = self.cleaned_data['email']
-    #     if User.objects.filter(email__iexact=email, is_active=True).exists():
-    #         raise forms.ValidationError("Email has taken, try another email address. ")
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email__iexact=email, is_active=True).exists():
+            raise forms.ValidationError("Email is taken, try another email address.")
+        return email
 
     class Meta(UserCreationForm.Meta):
         model = User
 
     @transaction.atomic()
-    def save(self):
+    def save(self, commit=True):
         user = super().save(commit=False)
         user.is_parent = True
         user.first_name = self.cleaned_data.get("first_name")
